@@ -112,10 +112,10 @@ def compute_info(airline_data, entered_year):
 
 # Callback decorator, note: multiple output can be combined as a list [output1,output2,...]
 @app.callback( [
-               Output(component_id='carrier-plot', component_property='figure'),
-               Output(component_id='weather-plot', component_property='figure'),
-               Output(component_id='nas-plot', component_property='figure'), 
-               Output(component_id='security-plot', component_property='figure'),
+               Output(component_id='carrier-plot', component_property='figure'), # 1. THE ORDER!! of this callback decorator's output should match callback function's return order; 
+               Output(component_id='weather-plot', component_property='figure'), # 2. id of this callback decorator's output should match layout html div's dcc.graph's id. 
+               Output(component_id='nas-plot', component_property='figure'),     # 3. property = 'figure' because id was defined under dcc.graph() in layout section above;
+               Output(component_id='security-plot', component_property='figure'), # 4. If id was defined directly under html.Div(), then property = 'children' (see Week 5 -> Lab1_2_Dash_Auto.py)
                Output(component_id='late-plot', component_property='figure'),
                ],
                Input(component_id='input-year', component_property='value'))
@@ -136,7 +136,7 @@ def get_graph(entered_year):
     # Line plot for late aircraft delay
     late_fig = px.line(avg_late, x='Month', y='LateAircraftDelay', color='Reporting_Airline', title='Average Late Aircraft delay time (minutes) by airline')
             
-    return[carrier_fig, weather_fig, nas_fig, sec_fig, late_fig]
+    return[carrier_fig, weather_fig, nas_fig, sec_fig, late_fig] #THE ORDER!! of this callback function return should match @callback decorator's OUTPUT order
 
 # Run the app
 if __name__ == '__main__':
